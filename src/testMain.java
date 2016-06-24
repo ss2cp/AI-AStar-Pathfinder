@@ -6,13 +6,13 @@ public class testMain {
 
 		try {
 			// initiate a new world
-			World myWorld = new World("myInputFile3.txt", true);
+			World myWorld = new World("myInputFile4.txt", false);
 			myWorld.createGUI(50 * myWorld.numCols(), 50 * myWorld.numRows(), 1);
 
 			// initiate a new robot
-			// MyRobotClass myRobot = new MyRobotClass();
+			MyRobotClass myRobot = new MyRobotClass();
 
-			MySecondRobotClass myRobot = new MySecondRobotClass();
+//			 MySecondRobotClass myRobot = new MySecondRobotClass();
 
 			// add robot to the world
 			myRobot.addToWorld(myWorld);

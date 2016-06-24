@@ -190,18 +190,18 @@ public class MySecondRobotClass extends Robot {
 							} else {
 								if (knownO.contains(surr.get(i))) {
 									open.add(temp);
-									super.makeGuess(surr.get(i), true);
+//									super.makeGuess(surr.get(i), true);
 								} else {
 									if (!surr.get(i).equals(endPos)
 											&& super.pingMap(surr.get(i))
 													.equals("X")) {
 										map[surr.get(i).x][surr.get(i).y] = "X";
 
-										super.makeGuess(surr.get(i), false);
+//										super.makeGuess(surr.get(i), false);
 
 									} else {
 										open.add(temp);
-										super.makeGuess(surr.get(i), true);
+//										super.makeGuess(surr.get(i), true);
 
 										// if(surr.get(i).equals(endPos)){
 										// break;
