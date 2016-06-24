@@ -12,18 +12,21 @@ public class MySecondRobotClass extends Robot {
 
 	private static int numRows = 0;
 	private static int numCols = 0;
-	private static Point startPos;
 	private static Point endPos;
 	private ArrayList<Point> knownX = new ArrayList<Point>();
 	private ArrayList<Point> knownO = new ArrayList<Point>();
+	private boolean noPossiblePath = false;
+	private int timesOfNPP = 0;
+	private boolean randomWorld = false;
 
 	@Override
 	public void addToWorld(World myWorld) {
 		numRows = myWorld.numRows();
 		numCols = myWorld.numCols();
-		startPos = myWorld.getStartPos();
 		endPos = myWorld.getEndPos();
+		randomWorld = myWorld.getUncertain();
 		super.addToWorld(myWorld);
+
 	}
 
 	@Override
@@ -62,6 +65,7 @@ public class MySecondRobotClass extends Robot {
 		// actual move
 		Stack<Point> path = findPath();
 		while (path != null && !path.isEmpty()) {
+			noPossiblePath = false;
 			Point nextMove = path.pop();
 			int oldX = super.getX();
 			int oldY = super.getY();
@@ -71,6 +75,7 @@ public class MySecondRobotClass extends Robot {
 				// Point hasn't changed, ran into wall
 				knownX.add(nextMove);
 				System.out.println("Ran into wall, calculating new path...");
+				timesOfNPP = 0;
 				path.clear();
 				path = findPath();
 			} else {
@@ -82,6 +87,14 @@ public class MySecondRobotClass extends Robot {
 			}
 		}
 
+		if (noPossiblePath
+				|| (knownX.size() + knownO.size()) >= numCols * numRows) {
+			// change max time at line 241
+			System.out
+					.println("Max times of finding exceeded! Maybe no viable path to destination at all.\nTerminating the program...");
+			System.exit(0);
+
+		}
 	}
 
 	public Stack<Point> findPath() {
@@ -210,7 +223,9 @@ public class MySecondRobotClass extends Robot {
 										/*
 										 * VERY INTERESTING
 										 */
-										break;
+										if (randomWorld) {
+											break;
+										}
 									}
 								}
 							}
@@ -229,9 +244,13 @@ public class MySecondRobotClass extends Robot {
 			}
 		}
 
-		while (path.isEmpty()) {
-			System.out.println("No possible path, find again...");
+		while (path.isEmpty() && timesOfNPP < numCols * numRows) {
+			timesOfNPP++;
+			System.out.println(timesOfNPP
+					+ " time that No possible path, find again...");
+			noPossiblePath = true;
 			path = findPath();
+
 		}
 		return path;
 

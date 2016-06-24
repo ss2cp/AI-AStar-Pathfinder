@@ -6,8 +6,8 @@ public class testMain {
 
 		try {
 			// initiate a new world
-			World myWorld = new World("myInputFile3.txt", true);
-			myWorld.createGUI(50 * myWorld.numCols(), 50 * myWorld.numRows(), 1);
+			World myWorld = new World("myInputFile0.txt", true);
+//			myWorld.createGUI(50 * myWorld.numCols(), 50 * myWorld.numRows(), 1);
 
 			// initiate a new robot
 			// MyRobotClass myRobot = new MyRobotClass();
