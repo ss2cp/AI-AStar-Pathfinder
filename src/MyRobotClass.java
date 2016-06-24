@@ -55,7 +55,7 @@ public class MyRobotClass extends Robot {
 		Stack<Point> path = new Stack<Point>();
 
 		// initiate a 2d array that keep track of obstacles
-		String[][] map = new String[myWorld.numRows()][myWorld.numCols()];
+		// String[][] map = new String[myWorld.numRows()][myWorld.numCols()];
 
 		// return a 2d array with distance between point and endPos
 		double[][] dist = evalDist(myWorld);
@@ -102,20 +102,20 @@ public class MyRobotClass extends Robot {
 					}
 
 					// pingMap and store result in a 2D Array
-					if (map[surr.get(i).x][surr.get(i).y] == null) {
-
-						map[surr.get(i).x][surr.get(i).y] = "O";
-						// if (myRobot.pingMap(surr.get(i)).equals("X")) {
-						// map[surr.get(i).x][surr.get(i).y] = "X";
-						// } else {
-						// map[surr.get(i).x][surr.get(i).y] = "O";
-						// }
-					}
+					// if (map[surr.get(i).x][surr.get(i).y] == null) {
+					//
+					// map[surr.get(i).x][surr.get(i).y] = "O";
+					// // if (myRobot.pingMap(surr.get(i)).equals("X")) {
+					// // map[surr.get(i).x][surr.get(i).y] = "X";
+					// // } else {
+					// // map[surr.get(i).x][surr.get(i).y] = "O";
+					// // }
+					// }
 
 					if (closedHasIt) {
 
 					} else if (!closedHasIt
-							&& map[surr.get(i).x][surr.get(i).y].equals("X")) {
+							&& super.pingMap(surr.get(i)).equals("X")) {
 						closed.add(new Node(surr.get(i)));
 
 					} else {
@@ -148,20 +148,10 @@ public class MyRobotClass extends Robot {
 
 							// add this node to open
 							// pingMap and store result in a 2D Array
-							if (map[temp.p.x][temp.p.y].equals("X")) {
 
-							} else {
+							open.add(temp);
 
-								if (!surr.get(i).equals(myWorld.getEndPos())
-										&& super.pingMap(surr.get(i)).equals(
-												"X")) {
-									map[surr.get(i).x][surr.get(i).y] = "X";
-
-								} else {
-									open.add(temp);
-								}
-								// super.makeGuess(surr.get(i), true);
-							}
+							// super.makeGuess(surr.get(i), true);
 
 						}
 					}

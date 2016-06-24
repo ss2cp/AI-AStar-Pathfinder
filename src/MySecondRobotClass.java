@@ -74,7 +74,7 @@ public class MySecondRobotClass extends Robot {
 			if (super.getX() == oldX && super.getY() == oldY) {
 				// Point hasn't changed, ran into wall
 				knownX.add(nextMove);
-				System.out.println("Ran into wall, calculating new path...");
+				// System.out.println("Ran into wall, calculating new path...");
 				timesOfNPP = 0;
 				path.clear();
 				path = findPath();
@@ -90,8 +90,7 @@ public class MySecondRobotClass extends Robot {
 		if (noPossiblePath
 				|| (knownX.size() + knownO.size()) >= numCols * numRows) {
 			// change max time at line 241
-			System.out
-					.println("Max times of finding exceeded! Maybe no viable path to destination at all.\nTerminating the program...");
+			// System.out.println("Max times of finding exceeded! Maybe no viable path to destination at all.\nTerminating the program...");
 			System.exit(0);
 
 		}
@@ -203,22 +202,24 @@ public class MySecondRobotClass extends Robot {
 							} else {
 								if (knownO.contains(surr.get(i))) {
 									open.add(temp);
-									super.makeGuess(surr.get(i), true);
+									// super.makeGuess(surr.get(i), true);
 								} else {
 									if (!surr.get(i).equals(endPos)
 											&& super.pingMap(surr.get(i))
 													.equals("X")) {
+										// System.out.println(surr.get(i));
 										map[surr.get(i).x][surr.get(i).y] = "X";
 
 										super.makeGuess(surr.get(i), false);
 
 									} else {
+										// System.out.println(surr.get(i));
 										open.add(temp);
 										super.makeGuess(surr.get(i), true);
 
-										// if(surr.get(i).equals(endPos)){
-										// break;
-										// }
+										if (surr.get(i).equals(endPos)) {
+											break;
+										}
 
 										/*
 										 * VERY INTERESTING
@@ -246,8 +247,8 @@ public class MySecondRobotClass extends Robot {
 
 		while (path.isEmpty() && timesOfNPP < numCols * numRows) {
 			timesOfNPP++;
-			System.out.println(timesOfNPP
-					+ " time that No possible path, find again...");
+			// System.out.println(timesOfNPP+
+			// " time that No possible path, find again...");
 			noPossiblePath = true;
 			path = findPath();
 
