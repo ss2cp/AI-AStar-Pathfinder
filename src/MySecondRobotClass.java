@@ -371,19 +371,10 @@ public class MySecondRobotClass extends Robot {
 				map[i][j] = calcDist(new Point(i, j), endPos);
 			}
 		}
-
-		// for (int i = 0; i < map.length; i++) {
-		// for (int j = 0; j < map[i].length; j++) {
-		// System.out.print(String.format("%.2f", (double) map[i][j])
-		// + ", ");
-		// }
-		// System.out.println();
-		// }
 		return map;
 	}
 
 	public static double calcDist(Point currPos, Point endPos) {
-
 		return endPos.distance(currPos);
 	}
 
