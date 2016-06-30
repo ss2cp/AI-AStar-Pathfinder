@@ -10,40 +10,51 @@ import world.World;
 
 public class MyRobotClass extends Robot {
 
-	private World myWorld;
+	private static int numRows = 0;
+	private static int numCols = 0;
+	private static Point endPos;
+	private ArrayList<Point> knownX = new ArrayList<Point>();
+	private ArrayList<Point> knownO = new ArrayList<Point>();
+	private boolean noPossiblePath = false;
+	private int timesOfNPP = 0;
+	private boolean randomWorld = false;
 
 	@Override
 	public void addToWorld(World myWorld) {
-		this.myWorld = myWorld;
+		numRows = myWorld.numRows();
+		numCols = myWorld.numCols();
+		endPos = myWorld.getEndPos();
+		randomWorld = myWorld.getUncertain();
 		super.addToWorld(myWorld);
+
 	}
 
 	@Override
 	public void travelToDestination() {
 
 		// two special cases where only 1 col or 1 row
-		if (this.myWorld.numCols() == 1 || this.myWorld.numRows() == 1) {
-			if (myWorld.numCols() == 1) { // when 1 col,
+		if (numCols == 1 || numRows == 1) {
+			if (numCols == 1) { // when 1 col,
 				// if robotX is greater than endX, move up
-				if (super.getX() > myWorld.getEndPos().x) {
-					while (super.getX() > myWorld.getEndPos().x) {
+				if (super.getX() > endPos.x) {
+					while (super.getX() > endPos.x) {
 						super.move(new Point(super.getX() - 1, 0));
 					}
 				} else { // else, move down
-					while (super.getX() < myWorld.getEndPos().x) {
+					while (super.getX() < endPos.x) {
 						super.move(new Point(super.getX() + 1, 0));
 					}
 				}
 			}
 
-			if (myWorld.numRows() == 1) { // when 1 row,
+			if (numRows == 1) { // when 1 row,
 				// if robotY is greater than endY, move left
-				if (super.getY() > myWorld.getEndPos().y) {
-					while (super.getY() > myWorld.getEndPos().y) {
+				if (super.getY() > endPos.y) {
+					while (super.getY() > endPos.y) {
 						super.move(new Point(0, super.getY() - 1));
 					}
 				} else { // else, move down
-					while (super.getY() < myWorld.getEndPos().y) {
+					while (super.getY() < endPos.y) {
 						super.move(new Point(0, super.getY() + 1));
 					}
 				}
@@ -51,22 +62,64 @@ public class MyRobotClass extends Robot {
 			return;
 		}
 
+		// actual move
+		Stack<Point> path = findPath();
+		while (path != null && !path.isEmpty()) {
+			noPossiblePath = false;
+			Point nextMove = path.pop();
+			int oldX = super.getX();
+			int oldY = super.getY();
+			super.move(nextMove);
+			// super.move(newPos);
+			if (super.getX() == oldX && super.getY() == oldY) {
+				// Point hasn't changed, ran into wall
+				knownX.add(nextMove);
+				// System.out.println("Ran into wall, calculating new path...");
+				timesOfNPP = 0;
+				path.clear();
+				path = findPath();
+			} else {
+				knownO.add(nextMove);
+
+				// uncomment if you want the robot to update its path after
+				// every move
+				// path = findPath();
+			}
+		}
+
+		if (noPossiblePath
+				|| (knownX.size() + knownO.size()) >= numCols * numRows) {
+			// change max time at line 241
+			// System.out.println("Max times of finding exceeded! Maybe no viable path to destination at all.\nTerminating the program...");
+			System.exit(0);
+
+		}
+	}
+
+	public Stack<Point> findPath() {
 		// returns a Stack<Point> of path
 		Stack<Point> path = new Stack<Point>();
 
 		// initiate a 2d array that keep track of obstacles
-		// String[][] map = new String[myWorld.numRows()][myWorld.numCols()];
+		String[][] map = new String[numRows][numCols];
 
 		// return a 2d array with distance between point and endPos
-		double[][] dist = evalDist(myWorld);
+		double[][] dist = evalDist();
 
 		// initiate two priority queues to store points
 		Queue<Node> open = new LinkedList<Node>();
-		List<Node> closed = new ArrayList<Node>();
+		ArrayList<Node> closed = new ArrayList<Node>();
+
+		for (int i = 0; i < knownX.size(); i++) {
+
+			Node temp = new Node(knownX.get(i));
+			closed.add(temp);
+			map[knownX.get(i).x][knownX.get(i).y] = "X";
+		}
 
 		// add the start point to the queue
-		Node root = new Node(myWorld.getStartPos(), calcDist(
-				myWorld.getStartPos(), myWorld.getEndPos()), 0);
+		Node root = new Node(super.getPosition(), calcDist(super.getPosition(),
+				endPos), 0);
 		open.add(root);
 
 		/*
@@ -83,12 +136,12 @@ public class MyRobotClass extends Robot {
 			closed.add(n);
 
 			// if current point is the end point, then break
-			if (n.p.equals(myWorld.getEndPos())) {
+			if (n.p.equals(endPos)) {
 				break;
 			} else {
 				// else, add all surrounding points to the queue by its
 				// distance order
-				List<Point> surr = surround(n.p, myWorld, dist);
+				List<Point> surr = surround(n.p, dist);
 
 				for (int i = 0; i < surr.size(); i++) {
 					boolean closedHasIt = false;
@@ -101,21 +154,17 @@ public class MyRobotClass extends Robot {
 						}
 					}
 
-					// pingMap and store result in a 2D Array
-					// if (map[surr.get(i).x][surr.get(i).y] == null) {
-					//
-					// map[surr.get(i).x][surr.get(i).y] = "O";
-					// // if (myRobot.pingMap(surr.get(i)).equals("X")) {
-					// // map[surr.get(i).x][surr.get(i).y] = "X";
-					// // } else {
-					// // map[surr.get(i).x][surr.get(i).y] = "O";
-					// // }
-					// }
+					// check stored pinMap result in a 2D Array
+					if (map[surr.get(i).x][surr.get(i).y] == null
+							|| (knownO.contains(surr.get(i)))) {
+
+						map[surr.get(i).x][surr.get(i).y] = "O";
+					}
 
 					if (closedHasIt) {
 
 					} else if (!closedHasIt
-							&& super.pingMap(surr.get(i)).equals("X")) {
+							&& map[surr.get(i).x][surr.get(i).y].equals("X")) {
 						closed.add(new Node(surr.get(i)));
 
 					} else {
@@ -140,7 +189,7 @@ public class MyRobotClass extends Robot {
 
 						temp.parent = n;
 						temp.gcost = temp.parent.gcost + 1;
-						temp.hcost = calcDist(surr.get(i), myWorld.getEndPos());
+						temp.hcost = calcDist(surr.get(i), endPos);
 
 						if (!openHasIt) {
 
@@ -148,31 +197,63 @@ public class MyRobotClass extends Robot {
 
 							// add this node to open
 							// pingMap and store result in a 2D Array
+							if (map[temp.p.x][temp.p.y].equals("X")) {
 
-							open.add(temp);
+							} else {
+								if (knownO.contains(surr.get(i))) {
+									open.add(temp);
+									// super.makeGuess(surr.get(i), true);
+								} else {
+									if (!surr.get(i).equals(endPos)
+											&& super.pingMap(surr.get(i))
+													.equals("X")) {
+										// System.out.println(surr.get(i));
+										map[surr.get(i).x][surr.get(i).y] = "X";
 
-							// super.makeGuess(surr.get(i), true);
+										super.makeGuess(surr.get(i), false);
 
+									} else {
+										// System.out.println(surr.get(i));
+										open.add(temp);
+										super.makeGuess(surr.get(i), true);
+
+										if (surr.get(i).equals(endPos)) {
+											break;
+										}
+
+										/*
+										 * VERY INTERESTING
+										 */
+										if (randomWorld) {
+											break;
+										}
+									}
+								}
+							}
 						}
 					}
-					// System.out.println(open);
 				}
 			}
 		}
 
 		// to locate the endPos node within closed list
 		for (int i = 0; i < closed.size(); i++) {
-			if (closed.get(i).p.equals(myWorld.getEndPos())) {
+			if (closed.get(i).p.equals(endPos)) {
 
 				path = printPath(closed.get(i), new Stack<Point>());
 
 			}
 		}
 
-		// actual move
-		while (path != null && !path.isEmpty()) {
-			super.move(path.pop());
+		while (path.isEmpty() && timesOfNPP < numCols * numRows) {
+			timesOfNPP++;
+			// System.out.println(timesOfNPP+
+			// " time that No possible path, find again...");
+			noPossiblePath = true;
+			path = findPath();
+
 		}
+		return path;
 
 	}
 
@@ -192,7 +273,7 @@ public class MyRobotClass extends Robot {
 	 * This method returns the ArrayList of all surrounding points of the given
 	 * point p, sorted by its distance to the endPos
 	 */
-	public static List<Point> surround(Point p, World myWorld, double[][] dist) {
+	public static List<Point> surround(Point p, double[][] dist) {
 
 		List<Point> surround = new ArrayList<Point>();
 
@@ -205,7 +286,7 @@ public class MyRobotClass extends Robot {
 				surround.add(new Point(p.x, p.y + 1));
 				surround.add(new Point(p.x + 1, p.y + 1));
 				surround.add(new Point(p.x + 1, p.y));
-			} else if (p.y == myWorld.numCols() - 1) {
+			} else if (p.y == numCols - 1) {
 				// if at top right corner
 				// System.out.println("TOP RIGHT");
 				surround.add(new Point(p.x, p.y - 1));
@@ -220,7 +301,7 @@ public class MyRobotClass extends Robot {
 				surround.add(new Point(p.x + 1, p.y + 1));
 				surround.add(new Point(p.x + 1, p.y));
 			}
-		} else if (p.x == myWorld.numRows() - 1) {
+		} else if (p.x == numRows - 1) {
 			// at bottom row
 			if (p.y == 0) {
 				// if at bottom left corner
@@ -228,7 +309,7 @@ public class MyRobotClass extends Robot {
 				surround.add(new Point(p.x, p.y + 1));
 				surround.add(new Point(p.x - 1, p.y + 1));
 				surround.add(new Point(p.x - 1, p.y));
-			} else if (p.y == myWorld.numCols() - 1) {
+			} else if (p.y == numCols - 1) {
 				// if at bottom right corner
 				// System.out.println("BOT RIGHT");
 				surround.add(new Point(p.x, p.y - 1));
@@ -253,7 +334,7 @@ public class MyRobotClass extends Robot {
 
 			surround.add(new Point(p.x + 1, p.y));
 			surround.add(new Point(p.x + 1, p.y + 1));
-		} else if (p.y == myWorld.numCols() - 1) {
+		} else if (p.y == numCols - 1) {
 			// if at right middle
 			// System.out.println("RIGHT MIDDLE");
 			surround.add(new Point(p.x, p.y - 1));
@@ -283,27 +364,18 @@ public class MyRobotClass extends Robot {
 		return surround;
 	}
 
-	public static double[][] evalDist(World myWorld) {
-		double[][] map = new double[myWorld.numRows()][myWorld.numCols()];
+	public static double[][] evalDist() {
+		double[][] map = new double[numRows][numCols];
 
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
-				map[i][j] = calcDist(new Point(i, j), myWorld.getEndPos());
+				map[i][j] = calcDist(new Point(i, j), endPos);
 			}
 		}
-
-		// for (int i = 0; i < map.length; i++) {
-		// for (int j = 0; j < map[i].length; j++) {
-		// System.out.print(String.format("%.2f", (double) map[i][j])
-		// + ", ");
-		// }
-		// System.out.println();
-		// }
 		return map;
 	}
 
 	public static double calcDist(Point currPos, Point endPos) {
-
 		return endPos.distance(currPos);
 	}
 
