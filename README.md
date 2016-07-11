@@ -17,6 +17,32 @@ In order to simulate uncertainty, the robot can be switched to *"uncertain mode"
 
 For instance, if the robot is looking at 1 block to its left, under *"certain mode"*, it would return the correct result; under "uncertain mode", there is a small chance it may return the incorrect result. There is bigger chance it returns the incorrect result if it were look at 10 blocks away.
 
+## Pseudo Code for A*
+```java
+OPEN //the set of nodes to be evaluated
+CLOSED //the set of nodes already evaluated
+add the starting node to OPEN
+
+loop
+    current = node in OPEN with the lowest heuristic value (h_cost + g_cost)
+    remove current from OPEN
+    add current to CLOSED
+
+    if current is the end node //path has been found
+        return
+
+    for each neighbour of the current node
+        if neighbour is not traversable(a wall) or neighbour is in CLOSED
+            skip to the next neighbour
+
+        if new path=h_cost+g_cost to neighbour is shorter OR neighbour is not in OPEN
+            set (h_cost + g_cost) of neighbour
+            set parent of neighbour to current 
+            if neighbour is not in OPEN
+                add neighbour to OPEN
+```
+
+
 ## Testing Levels
 ####Level 1
 ![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_1.png)
@@ -31,13 +57,13 @@ For instance, if the robot is looking at 1 block to its left, under *"certain mo
 
 ## Calculating Shortest Path (Level 4)
 ####Sensing the surrounding blocks toward the goal point
-![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4.png)
-![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_1.png)
-![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_2.png)
-![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_3.png)
+<img src="https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4.png" width="250">
+<img src="https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_1.png" width="250">
+<img src="https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_2.png" width="250">
+<img src="https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_3.png" width="250">
 ####Start moving through the shortest path
-![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_4.png)
-![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_5.png)
+<img src="https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_4.png" width="250">
+<img src="https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_5.png" width="250">
 
 ## Results
 Under *certain mode*, the robot is guaranteed to find the optimal path and travel to the destination. 
