@@ -8,9 +8,7 @@ A* path finding system within a basic simulator. The simulator code was provided
 
 **Goal:** Move the robot to the ending point in the shortest path possible. 
 
-**Uncertainty:** Robot may have imperfect vision. 
-
-**Language:** This program is coded in Java.
+**Language:** Java
 
 ## Uncertainty
 In order to simulate uncertainty, the robot can be switched to *"uncertain mode"*. Under uncertain mode, it is possible for the robot to receive incorrect information about its surroundings, the further it detects, the more incorrect it would be. 
