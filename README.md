@@ -1,4 +1,4 @@
-# AI_HW2
+# AI_2_Pathfinder
 Pathfinder A* for CS4710
 
 ## Background
