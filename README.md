@@ -85,6 +85,7 @@ The result is in the following tables:
 |4|400|38|192|48.000%|
 |Spiral|100|28|97|97.000%|
 
+####Analysis
 After optimization, *# of pings* and *ping coverage* dropped significantly, by about 50% on average. In bigger maps, like the 4th test case, the ping coverage is less than 50%, which is quite efficient.
 
 The Spiral is an interesting test case since there is only one viable path to the ending position, and every step along the way the first few blocks chosen from top of the queue will be walls, thus requiring a lot of pings. This resulted in a coverage ratio of 97%, which is very high. 
@@ -110,6 +111,7 @@ Overall, the algorithm is proven to be able to find the optimal path with least 
 |4|400|38|83.150|2.190|
 |Spiral|100|28|84.945|3.034|
 
+####Analysis
 The resulting data is very interesting and somewhat unexpected. First, the Ping Multiplier is actually less than 1 for test case 1 and 2, suggesting that in smaller maps with less amount of obstacles our algorithm actually does better when the pings are probabilistic.
 	
 Secondly, the Ping Multiplier grows quite rapidly as the complexity and the size of the input maps grow. The “pocket wall” in test case 3, the large size of test case 4, and the spiral shaped wall all resulted in a very high Ping Multiplier, demonstrating how much the efficiency of the algorithm is impacted by having a unreliable pings.
