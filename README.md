@@ -12,7 +12,7 @@ A* path finding system within a basic simulator. The simulator code was provided
 
 **Language:** This program is coded in Java.
 
-## Imperfect Vision
+## Uncertainty
 In order to simulate uncertainty, the robot can be switched to *"uncertain mode"*. Under uncertain mode, it is possible for the robot to receive incorrect information about its surroundings, the further it detects, the more incorrect it would be. 
 
 For instance, if the robot is looking at 1 block to its left, under *"certain mode"*, it would return the correct result; under "uncertain mode", there is a small chance it may return the incorrect result. There is bigger chance it returns the incorrect result if it were look at 10 blocks away.
@@ -65,7 +65,7 @@ loop
 <img src="https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_4.png" width="250">
 <img src="https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_5.png" width="250">
 
-## Results
+## Results and Analysis
 Under *certain mode*, the robot is guaranteed to find the optimal path and travel to the destination. 
 The result is in the following tables:
 
@@ -87,6 +87,13 @@ The result is in the following tables:
 |4|400|38|192|48.000%|
 |Spiral|100|28|97|97.000%|
 
+After optimization, *# of pings* and *ping coverage* dropped significantly, by about 50% on average. In bigger maps, like the 4th test case, the ping coverage is less than 50%, which is quite efficient.
+
+The Spiral is an interesting test case since there is only one viable path to the ending position, and every step along the way the first few blocks chosen from top of the queue will be walls, thus requiring a lot of pings. This resulted in a coverage ratio of 97%, which is very high. 
+
+Overall, the algorithm is proven to be able to find the optimal path with least amount of moves, while reducing the number of pings used to a minimum.
+
+
 ####Pings of Uncertain Maps and Certain Maps
 | Test Case  | # of Blocks|Optimal # of Pings on *Certain* Maps|Average # of Pings on *Uncertain* Maps|Ping Multiplier= pings on uncertain maps / pings on certain maps|
 | ------------- | ------------- | ------------- | ------------- |------------- |
@@ -105,5 +112,8 @@ The result is in the following tables:
 |4|400|38|83.150|2.190|
 |Spiral|100|28|84.945|3.034|
 
+The resulting data is very interesting and somewhat unexpected. First, the Ping Multiplier is actually less than 1 for test case 1 and 2, suggesting that in smaller maps with less amount of obstacles our algorithm actually does better when the pings are probabilistic.
+	
+Secondly, the Ping Multiplier grows quite rapidly as the complexity and the size of the input maps grow. The “pocket wall” in test case 3, the large size of test case 4, and the spiral shaped wall all resulted in a very high Ping Multiplier, demonstrating how much the efficiency of the algorithm is impacted by having a unreliable pings.
 
 
