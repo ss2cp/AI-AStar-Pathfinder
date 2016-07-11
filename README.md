@@ -92,7 +92,7 @@ The Spiral is an interesting test case since there is only one viable path to th
 Overall, the algorithm is proven to be able to find the optimal path with least amount of moves, while reducing the number of pings used to a minimum.
 
 
-####Pings of Uncertain Maps and Certain Maps
+####Pings of *Uncertain* Maps and *Certain* Maps
 | Test Case  | # of Blocks|Optimal # of Pings on *Certain* Maps|Average # of Pings on *Uncertain* Maps|Ping Multiplier= pings on uncertain maps / pings on certain maps|
 | ------------- | ------------- | ------------- | ------------- |------------- |
 |1|8|5|2.135|0.427|
@@ -101,7 +101,7 @@ Overall, the algorithm is proven to be able to find the optimal path with least 
 |4|400|192|1732.435|9.023|
 |Spiral|100|97|543.295|5.601|
 
-####Moves of Uncertain Maps and Certain Maps
+####Moves of *Uncertain* Maps and *Certain* Maps
 | Test Case  | # of Blocks|Optimal # of Moves on *Certain* Maps|Average # of Moves on *Uncertain* Maps|Move Multiplier= moves on uncertain maps / moves on certain maps|
 | ------------- | ------------- | ------------- | ------------- |------------- |
 |1|8|3|3.000|1.000|
