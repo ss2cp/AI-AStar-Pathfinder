@@ -65,6 +65,11 @@ loop
 
 ## Results and Analysis
 Under *certain mode*, the robot is guaranteed to find the optimal path and travel to the destination. 
+
+**Time Complexity:** &#x398;(n*m) *where n and m are columns and rows*
+
+**Space Complexity:** &#x398;(n^2\*m^2) *where n and m are columns and rows* There is a stack of size n\*m for heuristic search, and a 2d Array of size n\*m to store known blocks
+
 The result is in the following tables:
 
 ####*Certain Mode* Before Optimizations
