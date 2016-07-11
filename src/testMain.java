@@ -6,7 +6,7 @@ public class testMain {
 
 		try {
 			// initiate a new world
-			World myWorld = new World("myInputFile4.txt", false);
+			World myWorld = new World("myInputFile1.txt", false);
 			myWorld.createGUI(50 * myWorld.numCols(), 50 * myWorld.numRows(), 1);
 
 			// initiate a new robot
@@ -17,7 +17,7 @@ public class testMain {
 			// add robot to the world
 			myRobot.addToWorld(myWorld);
 
-			myRobot.travelToDestination();
+//			myRobot.travelToDestination();
 
 		} catch (Exception e) {
 			e.printStackTrace();
