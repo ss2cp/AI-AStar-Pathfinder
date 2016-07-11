@@ -15,5 +15,36 @@ A path finding system within a basic simulator. The simulator code was provided.
 ## Imperfect Vision
 In order to simulate uncertainty, the robot can be switched to *"uncertain mode"*. Under uncertain mode, it is possible for the robot to receive incorrect information about its surroundings, the further it detects, the more incorrect it would be. 
 
-For instance, if the robot is looking at 1 block to its left, under "certain mode", it would return the correct result; under "uncertain mode", there is a small chance it may return the incorrect result. There is bigger chance it returns the incorrect result if it were look at 10 blocks away.
+For instance, if the robot is looking at 1 block to its left, under *"certain mode"*, it would return the correct result; under "uncertain mode", there is a small chance it may return the incorrect result. There is bigger chance it returns the incorrect result if it were look at 10 blocks away.
 
+## Testing Levels
+####Level 1
+![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_1.png)
+####Level 2
+![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_2.png)
+####Level 3
+![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_3.png)
+####Level 4
+![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4.png)
+
+## Results
+Under *certain mode*, the robot is guaranteed to find the optimal path and travel to the destination. 
+The result is in the following tables:
+
+####Before Optimizations
+| Test Case  | # of Blocks in World |# of Moves|# of Pings|Ping coverage= pings/blocks|
+| ------------- | ------------- | ------------- | ------------- |------------- |
+| 1  | 8  |3|11|137.500%|
+| 2  | 32 |7|37|115.625%|
+|3|120|13|179|149.167%|
+|4|400|38|334|83.500%
+|Spiral|100|28|110|110.000%
+
+####After Optimizations
+| Test Case  | # of Blocks in World |# of Moves|# of Pings|Ping coverage= pings/blocks|
+| ------------- | ------------- | ------------- | ------------- |------------- |
+|1|8|3|5|62.500%|
+|2|32|7|26|81.250%|
+|3|120|13|79|65.833%|
+|4|400|38|192|48.000%|
+|Spiral|100|28|97|97.000%|
