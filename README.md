@@ -4,11 +4,11 @@ Pathfinder A* for CS4710
 ## Background
 A* path finding system within a basic simulator. The simulator code was provided. The program takes in a *.txt file consisting map information.
 
-**Rules:** The robot can go all 8 directions for one block. Robot starts at the starting point. 
+**Rules:** Starting at the starting point, robot can go all 8 directions of one block distance.
 
 **Goal:** Move the robot to the ending point in the shortest path possible. 
 
-**Uncertainty:** The robot may have imperfect vision. 
+**Uncertainty:** Robot may have imperfect vision. 
 
 **Language:** This program is coded in Java.
 
