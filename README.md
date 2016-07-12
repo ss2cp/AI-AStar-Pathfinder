@@ -43,15 +43,15 @@ loop
 
 ## Testing Levels
 ####Level 1
-![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_1.png)
+![Level 1](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_1.png)
 ####Level 2
-![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_2.png)
+![Level 2](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_2.png)
 ####Level 3
-![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_3.png)
+![Level 3](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_3.png)
 ####Level 4
-![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4.png)
+![Level 4](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4.png)
 ####Spiral
-![alt tag](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Spiral.png)
+![Spiral](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Spiral.png)
 
 ## Calculating Shortest Path (Level 4)
 ####Sensing the surrounding blocks toward the goal point
