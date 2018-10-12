@@ -42,24 +42,24 @@ loop
 
 
 ## Testing Levels
-####Level 1
+#### Level 1
 ![Level 1](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_1.png)
-####Level 2
+#### Level 2
 ![Level 2](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_2.png)
-####Level 3
+#### Level 3
 ![Level 3](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_3.png)
-####Level 4
+#### Level 4
 ![Level 4](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4.png)
-####Spiral
+#### Spiral
 ![Spiral](https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Spiral.png)
 
 ## Calculating Shortest Path (Level 4)
-####Sensing the surrounding blocks toward the goal point
+#### Sensing the surrounding blocks toward the goal point
 <img src="https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4.png" width="250">
 <img src="https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_1.png" width="250">
 <img src="https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_2.png" width="250">
 <img src="https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_3.png" width="250">
-####Start moving through the shortest path
+#### Start moving through the shortest path
 <img src="https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_4.png" width="250">
 <img src="https://raw.githubusercontent.com/ss2cp/AI_HW2/master/Results/Level_4_5.png" width="250">
 
@@ -72,7 +72,7 @@ Under *certain mode*, the robot is guaranteed to find the optimal path and trave
 
 The result is in the following tables:
 
-####*Certain Mode* Before Optimizations
+#### *Certain Mode* Before Optimizations
 | Test Case  | # of Blocks in World |# of Moves|# of Pings|Ping coverage= pings/blocks|
 | ------------- | ------------- | ------------- | ------------- |------------- |
 | 1  | 8  |3|11|137.500%|
@@ -81,7 +81,7 @@ The result is in the following tables:
 |4|400|38|334|83.500%
 |Spiral|100|28|110|110.000%
 
-####*Certain Mode* After Optimizations
+#### *Certain Mode* After Optimizations
 | Test Case  | # of Blocks in World |# of Moves|# of Pings|Ping coverage= pings/blocks|
 | ------------- | ------------- | ------------- | ------------- |------------- |
 |1|8|3|5|62.500%|
@@ -90,7 +90,7 @@ The result is in the following tables:
 |4|400|38|192|48.000%|
 |Spiral|100|28|97|97.000%|
 
-####Analysis
+#### Analysis
 After optimization, *# of pings* and *ping coverage* dropped significantly, by about 50% on average. In bigger maps, like the 4th test case, the ping coverage is less than 50%, which is quite efficient.
 
 The Spiral is an interesting test case since there is only one viable path to the ending position, and every step along the way the first few blocks chosen from top of the queue will be walls, thus requiring a lot of pings. This resulted in a coverage ratio of 97%, which is very high. 
@@ -98,7 +98,7 @@ The Spiral is an interesting test case since there is only one viable path to th
 Overall, the algorithm is proven to be able to find the optimal path with least amount of moves, while reducing the number of pings used to a minimum.
 
 
-####Pings of *Uncertain* Maps and *Certain* Maps
+#### Pings of *Uncertain* Maps and *Certain* Maps
 | Test Case  | # of Blocks|Optimal # of Pings on *Certain* Maps|Average # of Pings on *Uncertain* Maps|Ping Multiplier= pings on uncertain maps / pings on certain maps|
 | ------------- | ------------- | ------------- | ------------- |------------- |
 |1|8|5|2.135|0.427|
@@ -107,7 +107,7 @@ Overall, the algorithm is proven to be able to find the optimal path with least 
 |4|400|192|1732.435|9.023|
 |Spiral|100|97|543.295|5.601|
 
-####Moves of *Uncertain* Maps and *Certain* Maps
+#### Moves of *Uncertain* Maps and *Certain* Maps
 | Test Case  | # of Blocks|Optimal # of Moves on *Certain* Maps|Average # of Moves on *Uncertain* Maps|Move Multiplier= moves on uncertain maps / moves on certain maps|
 | ------------- | ------------- | ------------- | ------------- |------------- |
 |1|8|3|3.000|1.000|
@@ -116,7 +116,7 @@ Overall, the algorithm is proven to be able to find the optimal path with least 
 |4|400|38|83.150|2.190|
 |Spiral|100|28|84.945|3.034|
 
-####Analysis
+#### Analysis
 The resulting data is very interesting and somewhat unexpected. First, the Ping Multiplier is actually less than 1 for test case 1 and 2, suggesting that in smaller maps with less amount of obstacles our algorithm actually does better when the pings are probabilistic.
 	
 Secondly, the Ping Multiplier grows quite rapidly as the complexity and the size of the input maps grow. The “pocket wall” in test case 3, the large size of test case 4, and the spiral shaped wall all resulted in a very high Ping Multiplier, demonstrating how much the efficiency of the algorithm is impacted by having a unreliable pings.
